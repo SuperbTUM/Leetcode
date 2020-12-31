@@ -32,23 +32,3 @@ def merge(nums, left, right, mid, temp, indexes, res):
 
         else:
             pass
-
-
-def myPow(self, x: float, n: int) -> float:
-    num = [1]
-    res = []
-
-    def itr(num, i, n, x, res):
-        print(i)
-        if i == n:
-            res = num[:]
-            print(res)
-            return
-
-        itr([nu * x for nu in num], i + 1, n, x, res)
-
-    itr(num, 0, n, x, res)
-    return res
-
-import sys
-recur_l = sys.getrecursionlimit()
