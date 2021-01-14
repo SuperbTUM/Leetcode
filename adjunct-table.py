@@ -13,6 +13,13 @@ class AdjacencyTable:
             # assuming first -> second
             self.adj[first].add(second)
             # The rear node needs one more pre-condition (precursor node) to be found
+            # let us consider another solution
+            # self.in_degrees[first] += 1
+            # this means to access the precursor node, you need to reach all its rear node
+            # In the scenario of course study, consider the precursor node as the course you would like to enroll
+            # The content of its rear node is the pre-course you have to take in advance
+            # In the case of self.in_degrees[second] += 1
+            # this means you have another course to take when this pre-course is finished
             self.in_degrees[second] += 1
 
     def find_path(self):
@@ -25,7 +32,16 @@ class AdjacencyTable:
         while stack:
             node = stack.pop(0)
             # node = stack.pop() is slower because a queue is faster
+            # The reason why a queue is faster here is that the main idea of this method is BFS
             cnt += 1
+            # The way of defining self.is_degrees deeply affects the logic here
+            # considering another option, the traverse logic needs to focus on the key of the adjunct table
+            # rather than the value
+            # for i in range(len(self.adj)):
+            #     if node in self.adj[i]:
+            #         self.in_degrees[i] -= 1
+            #         if self.in_degrees[i] == 0:
+            #             stack.append(i)
             for cont in self.adj[node]:
                 # one effective rear node found
                 self.in_degrees[cont] -= 1
