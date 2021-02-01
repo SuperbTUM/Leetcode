@@ -30,12 +30,11 @@ def dijk(grid: List[List[int]]) -> int:
         # directions available
         directions = [(lx - 1, ly), (lx + 1, ly), (lx, ly + 1), (lx, ly - 1)]
         for direction in directions:
-            if 0 < lx < m - 1 and 0 < ly < n - 1 and weight[direction[0] * n + direction[1]] + abs(grid[lx][ly] -
-                                                                                                   grid[direction[0]][
-                                                                                                       direction[1]]) < \
-                    weight[lx * n + ly]:
-                weight[lx * n + ly] = weight[direction[0] * n + direction[1]] + (grid[lx][ly] -
+            if 0 <= direction[0] < m and 0 <= direction[1] < n and \
+                    weight[lx * n + ly] + abs(grid[lx][ly] - grid[direction[0]][direction[1]]) < \
+                    weight[direction[0] * n + direction[1]]:
+                weight[direction[0] * n + direction[1]] = weight[lx * n + ly] + (grid[lx][ly] -
                                                                                  grid[direction[0]][direction[1]])
-                heapq.heappush(q, (weight[lx * n + ly], direction[0], direction[1]))
+                heapq.heappush(q, (weight[direction[0] * n + direction[1]], direction[0], direction[1]))
 
     return weight[m * n - 1]
