@@ -1,6 +1,6 @@
 """
 GA with pyevolve. The challenge for GA in N-queens problem is to find all the possibilities.
-Just a tricky thought
+Just a edgy thought
 """
 from pyevolve import *
 n = 6  # You can change n to any integer greater than zero
