@@ -15,7 +15,7 @@ def dijk(grid: List[List[int]]) -> int:
     # when you read the document
     # there is no need for initialization
     # thanks to heapify module
-    heapq.heapify([(weight, x, y)])
+    heapq.heapify(q, [(weight, x, y)])
     visited = set()
     # then it is time to do something cool
     # remember this is a min heap
@@ -31,9 +31,9 @@ def dijk(grid: List[List[int]]) -> int:
         directions = [(lx - 1, ly), (lx + 1, ly), (lx, ly + 1), (lx, ly - 1)]
         for direction in directions:
             if 0 <= direction[0] < m and 0 <= direction[1] < n and \
-                    weight[lx * n + ly] + abs(grid[lx][ly] - grid[direction[0]][direction[1]]) < \
+                    weight[lx * n + ly] + abs(w - grid[direction[0]][direction[1]]) < \
                     weight[direction[0] * n + direction[1]]:
-                weight[direction[0] * n + direction[1]] = weight[lx * n + ly] + (grid[lx][ly] -
+                weight[direction[0] * n + direction[1]] = weight[lx * n + ly] + (w -
                                                                                  grid[direction[0]][direction[1]])
                 heapq.heappush(q, (weight[direction[0] * n + direction[1]], direction[0], direction[1]))
 
