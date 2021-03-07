@@ -40,7 +40,7 @@ def dijk(grid: List[List[int]]) -> int:
     return weight[m * n - 1]
 
 
-def dijk_weighted_graph(self, n: int, edges: List[List[int]]) -> int:
+def dijk_weighted_graph(n: int, edges: List[List[int]]) -> int:
     node = collections.defaultdict(list)
     wd = collections.defaultdict(list)
     for prev, nex, wgt in edges:
