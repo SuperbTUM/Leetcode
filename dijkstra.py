@@ -38,3 +38,43 @@ def dijk(grid: List[List[int]]) -> int:
                 heapq.heappush(q, (weight[direction[0] * n + direction[1]], direction[0], direction[1]))
 
     return weight[m * n - 1]
+
+
+def dijk_weighted_graph(self, n: int, edges: List[List[int]]) -> int:
+    node = collections.defaultdict(list)
+    wd = collections.defaultdict(list)
+    for prev, nex, wgt in edges:
+        node[prev].append(nex)
+        wd[prev].append(wgt)
+        node[nex].append(prev)
+        wd[nex].append(wgt)
+
+    # 先求所有节点到节点n的最短距离
+    # Dijkstra
+    def dijk(start):
+        if start == n:
+            return 0
+        weight = [0] + [inf] * (n)
+        q = [(weight[0], start)]
+        visited = set()
+        while q:
+            w, curr = heapq.heappop(q)
+            if curr in visited:
+                continue
+            if curr == n:
+                break
+            visited.add(curr)
+            # directions available
+            directions = node[curr]
+
+            for i, direction in enumerate(directions):
+                if wd[curr][i] + w < weight[direction]:
+                    weight[direction] = w + wd[curr][i]
+                    heapq.heappush(q, (weight[direction], direction))
+            # print(q)
+        return weight[-1]
+
+    tmp = []
+    for i in range(1, n+1):            
+        tmp.append(dijk(i))
+    print(tmp)
