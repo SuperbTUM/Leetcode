@@ -1,5 +1,4 @@
 from typing import List
-from functools import reduce
 # when you stand on top of the mountain with the odd index, look right, otherwise look left
 # the function returns the sum of the mountains you will see by standing on each one.
 
