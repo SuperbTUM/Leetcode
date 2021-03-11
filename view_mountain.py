@@ -1,4 +1,5 @@
 from typing import List
+from functools import reduce
 # when you stand on top of the mountain with the odd index, look right, otherwise look left
 # the function returns the sum of the mountains you will see by standing on each one.
 
@@ -6,33 +7,40 @@ from typing import List
 def view_mountains(mountains: List[int]) -> int:
     if len(mountains) < 2:
         return 0
-    m = len(mountains)
-    dp_left = [1] * m
-    for i in range(1, m):
-        for j in range(i):
-            if mountains[i] < mountains[j]:
-                dp_left[i] = max(dp_left[i], dp_left[j] + 1)
-    for ii in range(1, m):
-        if dp_left[ii] < dp_left[ii-1]:
-            dp_left[ii] = dp_left[ii-1]
-    dp_left.insert(0, 0)
-    dp_right = [1] * m
-    for i in range(m-2, -1, -1):
-        for j in range(m-1, i-1, -1):
-            if mountains[i] < mountains[j]:
-                dp_right[i] = max(dp_right[i], dp_right[j] + 1)
-    for jj in range(1, m):
-        if dp_right[jj] < dp_right[jj-1]:
-            dp_right[jj] = dp_right[jj-1]
-    dp_right.append(0)
-    print(dp_left)
-    print(dp_right)
     res = 0
-    for k in range(m):
-        if k & 1:
-            res += dp_right[k+1]
-        else:
-            res += dp_left[k]
+    # monostack
+    right = []
+    for j in range(len(mountains)-1, 1, -1):
+        if not right or mountains[j] < right[-1]:
+            right.append(j)
+    same_with_curr = [mountains[index] for index in right].count(mountains[1])
+    res += len(right) - same_with_curr
+
+    left = []
+    if len(mountains) & 1:
+        last_even_index = len(mountains) - 1
+    else:
+        last_even_index = len(mountains) - 2
+    for k in range(last_even_index):
+        if not left or mountains[k] > left[-1]:
+            left.append(k)
+    same_with_curr = [mountains[index] for index in left].count(mountains[last_even_index])
+    res += len(left) - same_with_curr
+
+    for i in range(len(mountains)):
+        if i & 1 and i > 1:  # look right
+            while i+1 in right or i in right:
+                right.pop()
+            same_with_curr = [mountains[index] for index in right].count(mountains[i])
+            res += len(right) - same_with_curr
+
+    for m in range(last_even_index-2, -1, -1):
+        if m & 1 == 0:
+            while m+1 in left or m in left:
+                left.pop()
+            same_with_curr = [mountains[index] for index in left].count(mountains[m])
+            res += len(left) - same_with_curr
+
     return res
 
 
